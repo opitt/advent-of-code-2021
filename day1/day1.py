@@ -1,14 +1,16 @@
 # https://adventofcode.com/2021/day/1
 from rich import print
+from more_itertools import windowed   
 import os
 
 def solve1(sonars):
-    ret=sum([(s2-s1)>0 for s1,s2 in zip(sonars[:-1],sonars[1:])])
+    #ret=sum( [s2>s1 for s1,s2 in zip(sonars[:-1],sonars[1:])]  )
+    ret=sum(w[1]>w[0] for w in windowed(sonars, 2))
     return ret
 
-
 def solve2(sonars):
-    sonars_3avg = [sum(sonars[i:i+3]) for i in range(len(sonars)-2)]
+    #sonars_3avg = [sum(sonars[i:i+3]) for i in range(len(sonars)-2)]
+    sonars_3avg = [sum(w) for w in windowed(sonars, 3)]
     return solve1(sonars_3avg)
 
 def main():
