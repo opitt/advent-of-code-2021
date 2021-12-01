@@ -6,6 +6,7 @@ def solve1(sonars):
     ret=sum([(s2-s1)>0 for s1,s2 in zip(sonars[:-1],sonars[1:])])
     return ret
 
+
 def solve2(sonars):
     sonars_3avg = [sum(sonars[i:i+3]) for i in range(len(sonars)-2)]
     return solve1(sonars_3avg)
