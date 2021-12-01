@@ -3,7 +3,7 @@ from rich import print
 import os
 
 def solve1(sonars):
-    ret=sum([(s2-s1)>0for s1,s2 in zip(sonars[:-1],sonars[1:])])
+    ret=sum([(s2-s1)>0 for s1,s2 in zip(sonars[:-1],sonars[1:])])
     return ret
 
 def solve2(sonars):
