@@ -1,7 +1,17 @@
 # https://adventofcode.com/2021/day/2
 import os
+from rich import print
 
 def solve1(cmds):
+    """calculate the depth and position by applying the given commands
+    logic: up/down change the depth; forward changes position
+
+    Args:
+        cmds (list): list of a command and one value: e.g. forward 5
+
+    Returns:
+        int: magic number for AOC
+    """
     depth,pos=0,0
     for c in cmds:
         dir,val=c.split()
@@ -16,6 +26,15 @@ def solve1(cmds):
     return depth*pos
 
 def solve2(cmds):
+    """calculate the depth and position by applying the given commands
+    logic: up/down change the aim; forward changes position AND depth
+
+    Args:
+        cmds (list): list of a command and one value: e.g. forward 5
+
+    Returns:
+        int: magic number for AOC
+    """
     depth,pos,aim=0,0,0
     for c in cmds:
         dir,val=c.split()
@@ -29,8 +48,6 @@ def solve2(cmds):
             case "down":
                 aim+=val
     return depth*pos
-    ret = None
-    return ret
 
 def main():
     # READ INPUT FILE
@@ -49,7 +66,7 @@ def main():
     # PART 2
     result = solve2(commands)
     print(
-        f"The depth*position is {result} "
+        f"The depth*position using aim logic is {result} "
     )
     # answer: 1727785422
 
