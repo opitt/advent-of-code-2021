@@ -9,3 +9,10 @@ _General_
 
 _About Python_
 * I changed the solution and use **windowed** from **[more_itertools](https://more-itertools.readthedocs.io/en/stable/api.html#more_itertools.windowed)**. Amazing, that there is a library for "every" challenge ... 
+
+## Day 2
+_General_
+* The early bird is catching the worm. (German proverb)
+
+_About Python_
+* I used the new **match case** construct for the first time. In its simplest way, but it's more readable without many **if** statements.
