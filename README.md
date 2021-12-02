@@ -15,4 +15,4 @@ _General_
 * The early bird is catching the worm. (German proverb)
 
 _About Python_
-* I used the new **match case** construct for the first time. In its simplest way, but it's more readable without many **if** statements.
+* I used the new **match case** construct for the first time. In it's simplest way, but it's more readable without many **if** statements.
