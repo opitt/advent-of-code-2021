@@ -2,36 +2,36 @@
 import os
 from rich import print
 
+
 def solve1(rep):
-    rep_cols = list(zip(*rep))
-    gamma_rate = int(
-        "".join("1" if col.count("1") > col.count("0") else "0" for col in rep_cols), 2
-    )
-    epsilon_rate = int(
-        "".join("1" if col.count("1") < col.count("0") else "0" for col in rep_cols), 2
-    )
+    most_least = [
+        ("1", "0") if col.count("1") > col.count("0") else ("0", "1")
+        for col in list(zip(*rep))
+    ]
+    gamma_rate = int("".join(ml[0] for ml in most_least), 2)
+    epsilon_rate = int("".join(ml[1] for ml in most_least), 2)
     return gamma_rate * epsilon_rate
 
 
 def solve2(rep_org):
-    bit = 0
-    # most_common = ["1" if col.count("1") >= col.count("0") else "0" for col in rep_cols]
-    rep=rep_org[:]
-    while len(rep)>1:
-        bits = [num[bit] for num in rep] 
-        keep="1" if bits.count("1") >= bits.count("0") else "0"
-        rep = [r for r in rep if r[bit] == keep]
-        bit += 1
-    oxy_rate = int(rep[0], 2)
+    def calc(what, rep):
+        bit = 0
+        while len(rep) > 1:
+            # get the bits of all remaining numbers in the report at the current bit position
+            bits = [num[bit] for num in rep]
+            if what == "oxy":
+                # keep 1, if there are less 0s than 1s (otherwise keep 0)
+                keep = "1" if bits.count("1") >= bits.count("0") else "0"
+            else:
+                # keep 1, if there are less 1s than 0s (otherwise keep 0)
+                keep = "1" if bits.count("1") < bits.count("0") else "0"
+            # keep only numbers that have the keep bit at the position
+            rep = [num for num in rep if num[bit] == keep]
+            bit += 1
+        return int(rep[0], 2)
 
-    bit = 0
-    rep=rep_org[:]
-    while len(rep)>1:
-        bits = [num[bit] for num in rep] 
-        keep="1" if bits.count("1") < bits.count("0") else "0"
-        rep = [r for r in rep if r[bit] == keep]
-        bit += 1
-    co2_rate = int(rep[0], 2)
+    oxy_rate = calc("oxy", rep_org[:])
+    co2_rate = calc("co2", rep_org[:])
     return oxy_rate * co2_rate
 
 
