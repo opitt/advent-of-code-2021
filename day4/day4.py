@@ -4,10 +4,10 @@ from rich import print
 from more_itertools import flatten
 
 
-def mark_boards(boards, boards_marked, n):
-    for i, board in enumerate(boards):
-        if n in board:
-            boards_marked[i][board.index(n)] = n
+def mark_boards(boards, boards_marked, num):
+    for b, board in enumerate(boards):
+        if num in board:
+            boards_marked[b][board.index(num)] = num
     pass
 
 def check_bingo(boards_marked, boards_with_bingo):
