@@ -81,7 +81,6 @@ def main():
             )
         )
         pos += 5 + 1
-    # all_nums_distinct=all([len(set(b)) == len(b) for b in boards])
 
     # PART 1
     result = solve1(boards, draws)
