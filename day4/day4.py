@@ -7,43 +7,42 @@ from more_itertools import flatten
 def mark_boards(boards, boards_marked, num):
     for b, board in enumerate(boards):
         if num in board:
-            boards_marked[b][board.index(num)] = num
+            boards_marked[b][board.index(num)] = True
     pass
 
 def check_bingo(boards_marked, boards_with_bingo):
+    # find new bingo boards and update boards with bingo 
     count = 0
     for b, board in enumerate(boards_marked):
         if b in boards_with_bingo:
+            # already marked as bingo board
             continue
-        hori = any(
-            all(map(lambda n: n != None, board[row : row + 5]))
-            for row in range(0, 25, 5)
-        )
-        verti = any(
-            all(map(lambda n: n != None, board[col:25:5])) for col in range(5)
-        )
+        hori = any(all(board[row : row + 5]) for row in range(0, 25, 5))
+        verti = any(all(board[col:25:5]) for col in range(5))
         if verti or hori:
             boards_with_bingo.append(b)
             count += 1
-    return count>0
+    return count > 0
 
 def calc_score(board, marked, last_num):
     # Start by finding the sum of all unmarked numbers on that board
-    res = sum(map(lambda bm: bm[0] if bm[1] == None else 0, zip(board, marked)))
-    # multiply it with the last number that made the bingo
+    # and multiply it with the last number that made the bingo
+    res = sum(map(lambda bm: bm[0] if not bm[1] else 0, zip(board, marked)))
     return res * last_num
 
 def solve1(boards, draws):
     # find the FIRST bingo board
-    boards_marked = [[None] * 25 for _ in range(len(boards))]
-    boards_with_bingo=[]
+    boards_marked = [[False] * 25 for _ in range(len(boards))]
+    boards_with_bingo = []
     for num in draws:
         mark_boards(boards, boards_marked, num)
-        if check_bingo(boards_marked,boards_with_bingo):
+        if check_bingo(boards_marked, boards_with_bingo):
             last_num = num
             break
     # The score of the winning board can now be calculated.
-    return calc_score(boards[boards_with_bingo[-1]], boards_marked[boards_with_bingo[-1]], last_num)
+    return calc_score(
+        boards[boards_with_bingo[-1]], boards_marked[boards_with_bingo[-1]], last_num
+    )
 
 def solve2(boards, draws):
     # find the LAST bingo board
@@ -63,7 +62,6 @@ def solve2(boards, draws):
         boards_marked[boards_with_bingo[-1]],
         last_bingo_num,
     )
-
 
 def main():
     # READ INPUT FILE
@@ -91,6 +89,5 @@ def main():
     result = solve2(boards, draws)
     print(f"The solution 2 is {result} ")
     # answer: 9576
-
 
 main()
