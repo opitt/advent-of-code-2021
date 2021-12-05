@@ -11,8 +11,7 @@ def mark_horiverti_line(vent_map, x1, y1, x2, y2):
 
 def mark_diaghoriverti_line(vent_map, x1, y1, x2, y2):
     if x1 == x2 or y1 == y2:
-        mark_horiverti_line(vent_map, x1, y1, x2, y2)
-        return
+        return mark_horiverti_line(vent_map, x1, y1, x2, y2)
     sign=lambda n: 1 if n>=0 else -1
     xsign, ysign = sign(x2 - x1), sign(y2 - y1)
     # only 45 degrees given, i.e. x and y change by the same value
