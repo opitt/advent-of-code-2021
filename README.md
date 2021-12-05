@@ -37,3 +37,5 @@ _About Python_
 ```python
 sign=lambda n: 1 if n>=0 else -1
 ```
+_Others_
+* Learned to format code blocks with markdown ... ```python does the trick above
