@@ -39,3 +39,7 @@ sign=lambda n: 1 if n>=0 else -1
 ```
 _Others_
 * Learned to format code blocks with markdown ... ```python does the trick above
+
+## Day 6
+_General_
+* 5.58 I was sitting at the screen. Family support made it possible to do AoC instead care taking. Big thanks! However ... I got trapped in mathematical thinking instead of logical ... and I am honestly not a math fan. The logic finally won.
