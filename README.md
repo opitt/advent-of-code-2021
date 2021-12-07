@@ -53,6 +53,4 @@ _About Python_
 
 _General_
 * also learned to use **time** on the command line 
-'''
-time python3 day7.py
-'''
+```time python3 day7.py```
