@@ -52,4 +52,7 @@ _About Python_
 * learned to use **timeit** to measure performance of my code
 
 _General_
-* also learned to use **time** on the command line '''time python3 day7.py'''
+* also learned to use **time** on the command line 
+'''
+time python3 day7.py
+'''
