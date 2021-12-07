@@ -43,3 +43,13 @@ _Others_
 ## Day 6
 _General_
 * 5.58 I was sitting at the screen. Family support made it possible to do AoC instead care taking. Big thanks! However ... I got trapped in mathematical thinking instead of logical ... and I am honestly not a math fan. The logic finally won.
+
+## Day 7 ##
+_General_
+* What a great start of the day. Not too difficult. Within 60 min I had both solutions.
+
+_About Python_
+* learned to use **timeit** to measure performance of my code
+
+_General_
+* also learned to use **time** on the command line '''time python3 day7.py'''
