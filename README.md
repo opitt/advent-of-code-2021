@@ -54,3 +54,7 @@ _About Python_
 _General_
 * also learned to use **time** on the command line 
 ```time python3 day7.py```
+
+## Day 8 ##
+_General_
+* After a brain heavy day, part 2 was too hard. Will need some rest to enjoy the next days of AoC
