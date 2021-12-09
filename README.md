@@ -58,3 +58,10 @@ _General_
 ## Day 8 ##
 _General_
 * After a brain heavy day, part 2 was too hard. Will need some rest to enjoy the next days of AoC
+
+## Day 9 ## 
+_General_
+* Today feels better. Managed to solve both parts in reasonable time. The challenge was to debug the recursive algorithm and trace the changes in the big map. The instructions were not really clear ... which caused some delays.
+
+_Python_
+* Used **math.prod**
