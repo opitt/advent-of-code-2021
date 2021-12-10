@@ -14,6 +14,7 @@ from copy import deepcopy
 def score_code(line):
     score = {")": 3, "]": 57, "}": 1197, ">": 25137}
     score2 = {"(": 1, "[": 2, "{": 3, "<": 4}
+    # replace all matching pairs ... starting with most inner brackets
     l=0
     while l != len(line):
         l = len(line)
