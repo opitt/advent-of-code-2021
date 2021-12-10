@@ -4,41 +4,56 @@ from rich import print
 import itertools as it
 from copy import deepcopy
 
+def display_print(signal):
+    placeholders="abcdefg"
+    D=[
+        " aaaa ", 
+        "b    c",
+        "b    c", 
+        " dddd ", 
+        "e    f", 
+        "e    f", 
+        " gggg "]
+    out=[segment.replace(letter, "#" if sig!=" " else " ") for sig,letter in zip(signal,placeholders) for segment in D]
+    #for segment in D:
+    #    for sig,letter in zip(signal,placeholders):
+    #        segment= segment.replace(letter, "#" if sig!=" " else " ")
+    #    out.append(segment)
+    print("\n".join(out))
+
+        
 def solve(sig_patterns):
-    seg_template=[
-        "111 111",  # abcdefg
-        "  1  1 ",  # 1
-        "1 111 1",  
-        "1 11 11",  
-        " 111 1 ",  # 4
-        "11 1 11",
-        "11 1111",
-        "1 1  1 ",  # 7
-        "1111111",  # 8
-        "1111 11"]
+    segment_options=list("".join(p) for p in it.permutations('abcdefg', 7))
+    seg_template={
+        1:"  1  1 ",  # 1
+        7:"1 1  1 ",  # 7
+        3:"1 11 11",  
+        4:" 111 1 ",  # 4
+        0:"111 111",  # abcdefg
+        5:"11 1 11",
+        6:"11 1111",
+        2:"1 111 1",  
+        8:"1111111",  # 8
+        9: "1111 11"}
+
+    for sig in sig_patterns:
+        
+
 
     options=[[] for _ in range(10)]
     for sig in sig_patterns:
-        for n, templ in enumerate(seg_template):
+        for n, templ in seg_template.items():
             if templ.count("1")==len(sig):
                 for s in it.permutations(sig,len(sig)):
                     t=templ
                     for c in s:
                         t=t.replace("1",c,1)
                     options[n].append(t)
+                    display_print(t)
+
 
     # start with 1
-    options=filter_(options,1)
-    options=filter_(options,7)
-    options=filter_(options,4)
-    options=filter_(options,2)
-    options=filter_(options,3)
-    options=filter_(options,5)
-    options=filter_(options,6)
-    options=filter_(options,0)
-    options=filter_(options,9)
-    options=filter_(options,8)
-
+    
 
     pass
 
