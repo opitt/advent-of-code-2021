@@ -65,3 +65,10 @@ _General_
 
 _Python_
 * Used **math.prod**
+
+## Day 10 ## 
+_General_
+* Success. I remembered a similar challenge finding matching pairs. With a simple replacing algorithm the solution appeared pretty fast (for my personal stats).
+
+_Python_
+* Used **filter** to filter only negative or positive values from a list
