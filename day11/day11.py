@@ -2,6 +2,7 @@
 import os
 from rich import print
 from copy import deepcopy
+import day11_gif as d11gif
 
 # First, the energy level of each octopus increases by 1.
 
@@ -84,16 +85,29 @@ def get_flashes_after_steps(energy_map, steps):
         flashes += flashed
     return flashes
 
+
 def get_steps_to_allflashed(energy_map):
     s = 0
     while True:
         s += 1
         _, all_flashed = simulate_one_step(energy_map)
-        if all_flashed:break
+        if all_flashed:
+            break
     return s
+
+
+def simulate_gif(energy_map, steps, filepath, filename):
+    maps = list()
+    maps.append(deepcopy(energy_map))
+    for _ in range(steps):
+        simulate_one_step(energy_map)
+        maps.append(deepcopy(energy_map))
+    d11gif.generate_gif(maps, 50, filepath, filename)
+
 
 MAXX_IDX = 0
 MAXY_IDX = 0
+
 
 def main(input_name):
     # READ INPUT FILE
@@ -112,6 +126,8 @@ def main(input_name):
     result = get_steps_to_allflashed(deepcopy(energy_map))
     print(f"The solution 2 is {result} ")
     # answer: 418
+
+    simulate_gif(deepcopy(energy_map), 399, script_path, "simulation")
 
 
 if __name__ == "__main__":
