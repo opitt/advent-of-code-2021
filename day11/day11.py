@@ -45,9 +45,9 @@ def simulate_one_step(energy_map):
         # collect the energy from all flashing octopus that needs to be spread at the end
         spreadenergy_map = [[0] * (MAXX_IDX + 1) for _ in range(MAXY_IDX + 1)]
         flash_count = 0
+        # Then, any octopus with an energy level greater than 9 flashes.
         for y, row in enumerate(energy_map):
             for x, e in enumerate(row):
-                # Then, any octopus with an energy level greater than 9 flashes.
                 if e > 9 and flashed_map[y][x] == 0:
                     # spread energy for all adjacent octopuses ... and save it
                     spreadenergy_map = spread_energy(spreadenergy_map, y, x)
@@ -55,12 +55,12 @@ def simulate_one_step(energy_map):
                     flash_count += 1
         if flash_count == 0:
             break
-        # now its time to actually spread the energy to all effected octopuses
+        # now spread the energy created by flashing octopus to all effected octopuses
         for y, row in enumerate(spreadenergy_map):
             for x, e in enumerate(row):
                 energy_map[y][x] += e
 
-    # reset the energy of all octopus that did flash to 0
+    # reset the energy of all octopus, that did flash, to 0
     total_flashes = 0
     for y, row in enumerate(flashed_map):
         for x, f in enumerate(row):
