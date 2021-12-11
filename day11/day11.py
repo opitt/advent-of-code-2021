@@ -25,51 +25,35 @@ def spread_energy(energy_map, current_y, current_x):
         (-1, 0),
         (-1, -1),
     ]:
-        next_y = current_y + dir_y
-        next_x = current_x + dir_x
-        if 0 <= next_y <= MAXY_IDX and 0 <= next_x <= MAXX_IDX:
+        next_y, next_x = current_y + dir_y, current_x + dir_x
+        if 0 <= next_y <= MAXY_IDX and \
+           0 <= next_x <= MAXX_IDX:
             energy_map[next_y][next_x] += 1
-    return energy_map
-
 
 def simulate_one_step(energy_map):
     # (An octopus can only flash at most once per step.)
-    flashed_map = [[0] * (MAXX_IDX + 1) for _ in range(MAXY_IDX + 1)]
-
+    flashed = []
     # First, the energy level of each octopus increases by 1.
     for y, row in enumerate(energy_map):
         for x, e in enumerate(row):
             energy_map[y][x] = e + 1
-
     # This process continues as long as new octopuses keep having their energy level increased beyond 9.
-    while True:
+    again=True
+    while again:
+        again=False
         # collect the energy from all flashing octopus that needs to be spread at the end
-        spreadenergy_map = [[0] * (MAXX_IDX + 1) for _ in range(MAXY_IDX + 1)]
-        flash_count = 0
         # Then, any octopus with an energy level greater than 9 flashes.
         for y, row in enumerate(energy_map):
             for x, e in enumerate(row):
-                if e > 9 and flashed_map[y][x] == 0:
-                    # spread energy for all adjacent octopuses ... and save it
-                    spreadenergy_map = spread_energy(spreadenergy_map, y, x)
-                    flashed_map[y][x] = 1
-                    flash_count += 1
-        if flash_count == 0:
-            break
-        # now spread the energy created by flashing octopus to all effected octopuses
-        for y, row in enumerate(spreadenergy_map):
-            for x, e in enumerate(row):
-                energy_map[y][x] += e
-
-    # reset the energy of all octopus, that did flash, to 0
-    total_flashes = 0
-    for y, row in enumerate(flashed_map):
-        for x, f in enumerate(row):
-            total_flashes += f
-            if f == 1:
-                energy_map[y][x] = 0
-
-    return total_flashes, total_flashes == (MAXX_IDX + 1) * (MAXY_IDX + 1)
+                if e > 9 and (y,x) not in flashed:
+                    # spread energy for all adjacent octopuses 
+                    spread_energy(energy_map, y, x)
+                    flashed.append((y,x))
+                    again=True
+    # reset the energy of all octopus, that did flash
+    for y,x  in flashed:
+        energy_map[y][x] = 0
+    return len(flashed), len(flashed) == (MAXX_IDX + 1) * (MAXY_IDX + 1)
 
 
 def print_map(energy_map):
