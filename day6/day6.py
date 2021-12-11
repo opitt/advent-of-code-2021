@@ -28,23 +28,19 @@ def solve2(fishes, days):
     # Each day, a 0 becomes a 6 and adds a new 8 to the end of the list,
     # while each other number decreases by 1 if it was present at the start of the day.
     fish_sim = [fishes.count(i) for i in range(9)]
-    next_gen = [0] * 9
     for _ in range(days):
-        next_gen[0] = fish_sim[1]
-        next_gen[1] = fish_sim[2]
-        next_gen[2] = fish_sim[3]
-        next_gen[3] = fish_sim[4]
-        next_gen[4] = fish_sim[5]
-        next_gen[5] = fish_sim[6]
-        next_gen[6] = fish_sim[7]
-        next_gen[7] = fish_sim[8]
-        if fish_sim[0] > 0:
-            next_gen[8] = fish_sim[0]
-            next_gen[6] += fish_sim[0]
-        else:
-            # reset Fish 8  ... since there are no new fishes
-            next_gen[8] = 0
-        fish_sim = next_gen[:]
+        new_fish = fish_sim[0]
+        fish_sim[7] += fish_sim[0]
+        
+        fish_sim[0] = fish_sim[1]
+        fish_sim[1] = fish_sim[2]
+        fish_sim[2] = fish_sim[3]
+        fish_sim[3] = fish_sim[4]
+        fish_sim[4] = fish_sim[5]
+        fish_sim[5] = fish_sim[6]
+        fish_sim[6] = fish_sim[7]
+        fish_sim[7] = fish_sim[8]
+        fish_sim[8] = new_fish
     return sum(fish_sim)
 
 
