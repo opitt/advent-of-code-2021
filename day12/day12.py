@@ -2,7 +2,7 @@
 import os
 from rich import print
 from copy import deepcopy
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 # Your goal is to find the number of distinct paths that start at start, end at end,
 # and don't visit small caves more than once.
@@ -32,14 +32,36 @@ def find_paths(MAZE, current_path):
     return
 
 
-def print_paths(paths, s=""):
-    for p in paths:
-        if isinstance(p, list):
-            print_paths(p, s)
-        else:
-            s += "," if len(s) else ""
-            s += p
-            print(p, end="")
+# Specifically, big caves can be visited any number of times,
+# a single small cave can be visited at most twice,
+# and the remaining small caves can be visited at most once.
+# However, the caves named start and end can only be visited exactly once each:
+# once you leave the start cave, you may not return to it,
+# and once you reach the end cave, the path must end immediately.
+def is_smallcave(c):
+    return c.islower() and c not in ("start", "end")
+
+def is_validpath(path):
+    small_caves = [c for c in path if is_smallcave(c)]
+    small_cave_counter = Counter(small_caves)
+    ret1 = all(map(lambda v: v <=2 , small_cave_counter.values()))
+    ret2 = list(small_cave_counter.values()).count(2) <= 1
+    return ret1 and ret2
+
+def find_paths2(MAZE, current_path):
+    global PATHS
+    if not is_validpath(current_path):
+        return
+    cave = current_path[-1]
+    if cave == "end":
+        PATHS.append(deepcopy(current_path))
+        return
+    maze = deepcopy(MAZE)
+    for cave_to in maze[cave]:
+        current_path.append(cave_to)
+        find_paths2(maze, current_path)
+        current_path.pop()  # remove last element
+    return
 
 
 def main(input_name):
@@ -57,10 +79,19 @@ def main(input_name):
     maze.pop("end")
 
     # PART 1
+    global PATHS
+    PATHS = []
     find_paths(maze, ["start"])
     result = len(PATHS)
     print(f"The solution 1 is {result} ")
     # answer: 3230
+
+    # PART 2
+    PATHS = []
+    find_paths2(maze, ["start"])
+    result = len(PATHS)
+    print(f"The solution 2 is {result} ")
+    # answer: 83475
 
 
 if __name__ == "__main__":
