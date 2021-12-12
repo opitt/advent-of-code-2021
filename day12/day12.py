@@ -39,8 +39,10 @@ def find_paths(paths_found, MAZE, current_path):
 def is_smallcave(c):
     return c.islower() and c not in ("start", "end")
 
+
 def find_paths3(paths_found, maze, cave_visits, cave_twice, current_path):
     cave = current_path[-1]
+    cave_visits_total[cave] += 1  # only for stats
     if cave == "end":
         paths_found.append(deepcopy(current_path))
     else:
@@ -75,9 +77,9 @@ def main(input_name):
 
     # PART 1
     paths_found = []
-    #part = lambda: find_paths(paths_found, maze, ["start"])
-    #t = timeit.Timer(part)
-    #print(t.timeit(1), "sec")
+    # part = lambda: find_paths(paths_found, maze, ["start"])
+    # t = timeit.Timer(part)
+    # print(t.timeit(1), "sec")
 
     find_paths(paths_found, maze, ["start"])
     result = len(paths_found)
@@ -87,14 +89,28 @@ def main(input_name):
     # PART 2
     paths_found = []
     cave_visits = {k: 0 for k in maze.keys()}
-    #part = lambda: find_paths3(paths_found, maze, cave_visits, "", ["start"])
-    #t = timeit.Timer(part)
-    #print(t.timeit(1), "sec")
+
+    global cave_visits_total
+    cave_visits_total = {k: 0 for k in maze.keys()}
+    cave_visits_total["end"] = 0
+
+    # part = lambda: find_paths3(paths_found, maze, cave_visits, "", ["start"])
+    # t = timeit.Timer(part)
+    # print(t.timeit(1), "sec")
     find_paths3(paths_found, maze, cave_visits, "", ["start"])
     result = len(paths_found)
     print(f"The solution 2 is {result} ")
     # answer: 83475
+    mx = max(cave_visits_total.values())
+    for k, v in sorted(cave_visits_total.items(), key=lambda kv: kv[1]):
+        print(
+            f"{k: >5} {'*' * (int(v * 100 // mx) // 10): >11} {v: >7,}".replace(
+                ",", "."
+            )
+        )
 
+
+cave_visits_total = {}
 
 if __name__ == "__main__":
     main("input.txt")
