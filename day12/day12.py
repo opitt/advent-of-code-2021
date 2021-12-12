@@ -2,7 +2,8 @@
 import os
 from rich import print
 from copy import deepcopy
-from collections import defaultdict, Counter
+from collections import defaultdict
+import timeit
 
 # Your goal is to find the number of distinct paths that start at start, end at end,
 # and don't visit small caves more than once.
@@ -28,6 +29,7 @@ def find_paths(paths_found, MAZE, current_path):
             current_path.pop()
     return
 
+
 # Specifically, big caves can be visited any number of times,
 # a single small cave can be visited at most twice,
 # and the remaining small caves can be visited at most once.
@@ -37,24 +39,23 @@ def find_paths(paths_found, MAZE, current_path):
 def is_smallcave(c):
     return c.islower() and c not in ("start", "end")
 
-def is_validpath(path):
-    small_caves = [c for c in path if is_smallcave(c)]
-    small_cave_counter = Counter(small_caves)
-    not_more_than_twice = all(map(lambda v: v <=2 , small_cave_counter.values()))
-    only_once_twice = list(small_cave_counter.values()).count(2) <= 1
-    return not_more_than_twice and only_once_twice
-
-def find_paths2(paths_found, maze, current_path):
-    if not is_validpath(current_path):
-        return
+def find_paths3(paths_found, maze, cave_visits, cave_twice, current_path):
     cave = current_path[-1]
     if cave == "end":
         paths_found.append(deepcopy(current_path))
     else:
+        cave_visits[cave] += 1
+        if is_smallcave(cave):
+            if cave_visits[cave] > 1:
+                if cave_twice != "":
+                    cave_visits[cave] -= 1
+                    return
+                cave_twice = cave
         for cave_to in maze[cave]:
             current_path.append(cave_to)
-            find_paths2(paths_found, maze, current_path)
-            current_path.pop() 
+            find_paths3(paths_found, maze, cave_visits, cave_twice, current_path)
+            current_path.pop()
+        cave_visits[cave] -= 1
     return
 
 
@@ -74,6 +75,10 @@ def main(input_name):
 
     # PART 1
     paths_found = []
+    #part = lambda: find_paths(paths_found, maze, ["start"])
+    #t = timeit.Timer(part)
+    #print(t.timeit(1), "sec")
+
     find_paths(paths_found, maze, ["start"])
     result = len(paths_found)
     print(f"The solution 1 is {result} ")
@@ -81,7 +86,11 @@ def main(input_name):
 
     # PART 2
     paths_found = []
-    find_paths2(paths_found, maze, ["start"])
+    cave_visits = {k: 0 for k in maze.keys()}
+    #part = lambda: find_paths3(paths_found, maze, cave_visits, "", ["start"])
+    #t = timeit.Timer(part)
+    #print(t.timeit(1), "sec")
+    find_paths3(paths_found, maze, cave_visits, "", ["start"])
     result = len(paths_found)
     print(f"The solution 2 is {result} ")
     # answer: 83475
