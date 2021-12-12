@@ -4,6 +4,13 @@ A nice challenge for everyday learning a coding language.
 # Today I learned...
 These are some things I learned along the way.
 
+## Day 12 - Saturday 
+_General_
+* Success. Recursion was the theme for me. Still not so happy with performance ... too much copying and validating wrong paths.
+
+_Python_
+* Used **Counter**, **deepcopy**, and recursion.  
+
 ## Day 11 - Saturday 
 _General_
 * Success. I like simulations - as long as they are in 2 dimensions. I guess, one could use numpy or pandas for this simulations to make matrix handling easier. Need to recall how that worked ...
