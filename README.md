@@ -7,9 +7,11 @@ These are some things I learned along the way.
 ## Day 12 - Saturday 
 _General_
 * Success. Recursion was the theme for me. Still not so happy with performance ... too much copying and validating wrong paths.
+* Ok, I looked into performance. The difference is: I count and store the number of visits per node. AND I store the small cave, that was visited twice. From 4 sec to 0.8 sec. Happy.
 
 _Python_
-* Used **Counter**, **deepcopy**, and recursion.  
+* Used **Counter**, **deepcopy**, and recursion.
+* I also used **timit** again, to measure execution time.
 
 ## Day 11 - Saturday 
 _General_
