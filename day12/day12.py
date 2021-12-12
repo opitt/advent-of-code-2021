@@ -11,26 +11,22 @@ from collections import defaultdict, Counter
 # It would be a waste of time to visit any small cave more than once,
 # but big caves are large enough that it might be worth visiting them multiple times.
 # So, all paths you find should visit small caves at most once, and can visit big caves any number of times.
-
-PATHS = []
-
-
-def find_paths(MAZE, current_path):
-    global PATHS
+def find_paths(paths_found, MAZE, current_path):
     cave = current_path[-1]
     if cave == "end":
-        PATHS.append(deepcopy(current_path))
-        return
-    maze = deepcopy(MAZE)
-    caves_to = maze[cave][:]
-    if cave.islower():
-        maze.pop(cave)
-    for cave_to in caves_to:
-        current_path.append(cave_to)
-        find_paths(maze, current_path)
-        current_path.pop()  # remove last element
+        paths_found.append(deepcopy(current_path))
+    else:
+        maze = deepcopy(MAZE)
+        caves_to = maze[cave][:]
+        if cave.islower():
+            # remove it from the possible maze options
+            # small caves can only be visited once
+            maze.pop(cave)
+        for cave_to in caves_to:
+            current_path.append(cave_to)
+            find_paths(paths_found, maze, current_path)
+            current_path.pop()
     return
-
 
 # Specifically, big caves can be visited any number of times,
 # a single small cave can be visited at most twice,
@@ -44,23 +40,21 @@ def is_smallcave(c):
 def is_validpath(path):
     small_caves = [c for c in path if is_smallcave(c)]
     small_cave_counter = Counter(small_caves)
-    ret1 = all(map(lambda v: v <=2 , small_cave_counter.values()))
-    ret2 = list(small_cave_counter.values()).count(2) <= 1
-    return ret1 and ret2
+    not_more_than_twice = all(map(lambda v: v <=2 , small_cave_counter.values()))
+    only_once_twice = list(small_cave_counter.values()).count(2) <= 1
+    return not_more_than_twice and only_once_twice
 
-def find_paths2(MAZE, current_path):
-    global PATHS
+def find_paths2(paths_found, maze, current_path):
     if not is_validpath(current_path):
         return
     cave = current_path[-1]
     if cave == "end":
-        PATHS.append(deepcopy(current_path))
-        return
-    maze = deepcopy(MAZE)
-    for cave_to in maze[cave]:
-        current_path.append(cave_to)
-        find_paths2(maze, current_path)
-        current_path.pop()  # remove last element
+        paths_found.append(deepcopy(current_path))
+    else:
+        for cave_to in maze[cave]:
+            current_path.append(cave_to)
+            find_paths2(paths_found, maze, current_path)
+            current_path.pop() 
     return
 
 
@@ -79,17 +73,16 @@ def main(input_name):
     maze.pop("end")
 
     # PART 1
-    global PATHS
-    PATHS = []
-    find_paths(maze, ["start"])
-    result = len(PATHS)
+    paths_found = []
+    find_paths(paths_found, maze, ["start"])
+    result = len(paths_found)
     print(f"The solution 1 is {result} ")
     # answer: 3230
 
     # PART 2
-    PATHS = []
-    find_paths2(maze, ["start"])
-    result = len(PATHS)
+    paths_found = []
+    find_paths2(paths_found, maze, ["start"])
+    result = len(paths_found)
     print(f"The solution 2 is {result} ")
     # answer: 83475
 
