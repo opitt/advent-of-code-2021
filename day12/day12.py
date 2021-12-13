@@ -1,4 +1,4 @@
-# https://adventofcode.com/2021/day/11
+# https://adventofcode.com/2021/day/12
 import os
 from rich import print
 from copy import deepcopy
