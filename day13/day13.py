@@ -7,38 +7,28 @@ import timeit
 
 # How many dots are visible after completing just the first fold instruction on your transparent paper?
 def fold_it(dots, folds, part_1):
-    def add_dot(dot):
+
+    def add(dot):
         if dot in dots_after_folding:
             pass
         else:
             dots_after_folding.append(dot)
 
-    for fold_dir, fold_line in folds:
+    FOLDXY = {"y": lambda d: (d[0], fold_line - (d[1] - fold_line)),
+                "x": lambda d: (fold_line - (d[0] - fold_line),d[1])}
+    XY = {"x": 0, "y": 1}
+
+    for fold_dir, fold_line in folds[:1 if part_1 else None]:
         dots_after_folding = []
-        if fold_dir == "y":
-            # fold up:
-            for dot in dots:
-                dot_x, dot_y = dot
-                if dot_y < fold_line:
-                    add_dot(dot)
-                elif dot_y > fold_line:
-                    dot_folded = (dot_x, fold_line - (dot_y - fold_line))
-                    add_dot(dot_folded)
-                else:
-                    pass  # the fold line
-        elif fold_dir == "x":
-            for dot in dots:
-                dot_x, dot_y = dot
-                if dot_x < fold_line:
-                    add_dot(dot)
-                elif dot_x > fold_line:
-                    dot_folded = (fold_line - (dot_x - fold_line), dot_y)
-                    add_dot(dot_folded)
-                else:
-                    pass  # the fold line
+        for dot in dots:
+            if dot[XY[fold_dir]] < fold_line:
+                add(dot)
+            elif dot[XY[fold_dir]] > fold_line:
+                dot = FOLDXY[fold_dir](dot)
+                add(dot)
+            else:
+                pass  # the fold line
         dots = deepcopy(dots_after_folding)
-        if part_1:
-            break
     if not part_1:
         print_dots(dots)
     return len(dots)
