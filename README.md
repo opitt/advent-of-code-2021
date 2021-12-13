@@ -4,6 +4,15 @@ A nice challenge for everyday learning a coding language.
 # Today I learned...
 These are some things I learned along the way.
 
+## Day 13 
+_General_
+* Success. I worked today with the points - and not with a matrix. Proud of myself. This is faster than a matrix operation.
+* A stupid bug made me think, one can't return a list ... until I found out, the returned list was correct, but my calculation was wrong.
+
+_Python_
+* Used **dictionary with lambda function** to keep the code flexible. 
+* For x and y folding I can apply the same logic ... thanks to lambda dictionionary.
+
 ## Day 12 - Saturday 
 _General_
 * Success. Recursion was the theme for me. Still not so happy with performance ... too much copying and validating wrong paths.
