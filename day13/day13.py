@@ -41,7 +41,7 @@ def fold_it(dots, folds, part_1):
             break
     if not part_1:
         print_dots(dots)
-    return len(dots_after_folding)
+    return len(dots)
 
 
 def print_dots(dots):
