@@ -1,25 +1,24 @@
 # https://adventofcode.com/2021/day/13
 import os
 from rich import print
-from copy import deepcopy
 from collections import defaultdict
-import timeit
 
 # How many dots are visible after completing just the first fold instruction on your transparent paper?
-def fold_it(dots, folds, part_1):
-
+def fold_it(dots, folds, end_after=None):
     def add(dot):
-        if dot in dots_after_folding:
+        if dot in dots_folded:
             pass
         else:
-            dots_after_folding.append(dot)
+            dots_folded.append(dot)
 
-    FOLDXY = {"y": lambda d: (d[0], fold_line - (d[1] - fold_line)),
-                "x": lambda d: (fold_line - (d[0] - fold_line),d[1])}
+    FOLDXY = {
+        "y": lambda d: (d[0], fold_line - (d[1] - fold_line)),
+        "x": lambda d: (fold_line - (d[0] - fold_line), d[1]),
+    }
     XY = {"x": 0, "y": 1}
 
-    for fold_dir, fold_line in folds[:1 if part_1 else None]:
-        dots_after_folding = []
+    for fold_dir, fold_line in folds[:end_after]:
+        dots_folded = []
         for dot in dots:
             if dot[XY[fold_dir]] < fold_line:
                 add(dot)
@@ -28,10 +27,8 @@ def fold_it(dots, folds, part_1):
                 add(dot)
             else:
                 pass  # the fold line
-        dots = deepcopy(dots_after_folding)
-    if not part_1:
-        print_dots(dots)
-    return len(dots)
+        dots = dots_folded[:]
+    return len(dots), dots
 
 
 def print_dots(dots):
@@ -79,14 +76,20 @@ def main(input_name):
             folds.append((fold_along, int(fold_num)))
 
     # PART 1
-    result = fold_it(dots, folds, False)
+    result, _ = fold_it(dots, folds, 1)
     print(f"The solution 1 is {result} ")
     # answer: 716
 
     # PART 2
-    result = fold_it(dots, folds, True)
-    print(f"The solution 2 has {result} dot. Display:")
-    # answer: RPCKFBLR
+    result, folded = fold_it(dots, folds)
+    print(f"The solution 2 has {result} dots:")
+    print_dots(folded)
+    # ###  ###   ##  #  # #### ###  #    ###
+    # #  # #  # #  # # #  #    #  # #    #  #
+    # #  # #  # #    ##   ###  ###  #    #  #
+    # ###  ###  #    # #  #    #  # #    ###
+    # # #  #    #  # # #  #    #  # #    # #
+    # #  # #     ##  #  # #    ###  #### #  #
 
 
 if __name__ == "__main__":
