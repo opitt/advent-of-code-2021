@@ -4,6 +4,15 @@ A nice challenge for everyday learning a coding language.
 # Today I learned...
 These are some things I learned along the way.
 
+## Day 14 
+_General_
+* This looked so easy for part 1. And then it timed out for part 2. Damn.
+* Got inspired by an idea and it worked with test data. BUT NOT with input data ... Damn.
+* Until I found my bug ... I was ignoring duplicate template input pairs ... 
+
+_Python_
+* I used today the first time **itertools.pairwise**. Nice to have so many batteries included.
+
 ## Day 13 
 _General_
 * Success. I worked today with the points - and not with a matrix. Proud of myself. This is faster than a matrix operation.
