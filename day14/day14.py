@@ -2,33 +2,36 @@
 import os
 from rich import print
 from itertools import pairwise
-from collections import Counter
-
-# Apply 10 steps of pair insertion to the polymer template and find the most and least common elements in the result.
-# What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?
+from collections import Counter, defaultdict
+from copy import deepcopy
 
 
 def build_polymer(rules, template, steps):
-    poly = template
+
+    def count_minmax_elements(pairs):
+        element_count = defaultdict(int)
+        for pair in pairs.keys():
+            # count only the first element of a pair (the second element is the first of the next pair)
+            element_count[pair[0]] += pairs[pair]
+        # add the last element
+        element_count[template[-1]] += 1
+        return max(element_count.values()), min(element_count.values())
+
+    pairs = defaultdict(int)
+    for pair in pairwise(template):
+        pairs["".join(pair)] += 1
+    
     for _ in range(steps):
-        #pairs = [f"{pair[0]}{pair[1]}" for pair in pairwise(poly)]
-        #poly_pairs = [f"{pair[0]}{rules[pair]}" for pair in pairs]
-        poly_pairs = [f"{pair[0]}{rules[pair]}" for pair in [f"{pair[0]}{pair[1]}" for pair in pairwise(poly)]]
-        poly = "".join(poly_pairs)+ poly[-1][-1]
-    elements = Counter(poly)
-    common = elements.most_common(len(elements))
-    el_max = common[0][1]
-    el_min = common[-1][1]
-    return el_max - el_min
+        pairs_next = defaultdict(int)
+        for pair, pair_count in pairs.items():
+            insert = rules[pair]
+            pair1, pair2 = pair[0] + insert, insert + pair[1]
+            pairs_next[pair1] += pair_count
+            pairs_next[pair2] += pair_count
+        pairs = deepcopy(pairs_next)
 
-
-# This polymer grows quickly. After step 5, it has length 97;
-# After step 10, it has length 3073.
-# After step 10, B occurs 1749 times, C occurs 298 times, H occurs 191 times, and N occurs 865 times;
-# taking the quantity of the most common element (B, 1749) and subtracting the quantity of the least common element (H, 161) produces 1749 - 161 = 1588.
-
-# Apply 10 steps of pair insertion to the polymer template and find the most and least common elements in the result.
-# What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?
+    common_max, common_min = count_minmax_elements(pairs)
+    return common_max - common_min
 
 
 def main(input_name):
@@ -37,19 +40,20 @@ def main(input_name):
     with open(os.path.join(script_path, input_name), encoding="utf-8") as input:
         lines = input.readlines()
     template = lines[0].strip()
-    
-    insert_rules = {k: v for k, v in [line.strip().split(" -> ") for line in lines[2:]]}
+
+    poly_rules = {k: v for k, v in [line.strip().split(" -> ") for line in lines[2:]]}
 
     # PART 1
-    result = build_polymer(insert_rules, template, 10)
+    # Apply 10 steps of pair insertion to the polymer template and find the most and least common elements in the result.
+    # What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?
+    result = build_polymer(poly_rules, template, 10)
     print(f"The solution 1 is {result} ")
-    # answer: 3058
+    # answer: 3058 (test: 1588)
 
     # PART 2
-    result = build_polymer(insert_rules, template, 40)
+    result = build_polymer(poly_rules, template, 40)
     print(f"The solution 2 is {result} ")
-    # answer:
-
+    # answer: 3447389044530 (test: 2188189693529)
 
 if __name__ == "__main__":
-    main("test.txt")
+    main("input.txt")
