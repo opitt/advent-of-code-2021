@@ -4,6 +4,15 @@ A nice challenge for everyday learning a coding language.
 # Today I learned...
 These are some things I learned along the way.
 
+## Day 15
+_General_
+* This is going to be tough. My recursive solution broke very quickly. Now I try with Dijkstra ...
+* Watch here: [youtube](https://www.youtube.com/watch?v=pVfj6mxhdMw&list=PLdWlRrByQZJ00x7n4v51Mtc-rU-UAicGB&index=3)
+* Part two is still running ... OMG.
+
+_Python_
+* Nothing really new. Maybe to mention that I use tupels as index for a dictionary ... boring, right?
+
 ## Day 14 
 _General_
 * This looked so easy for part 1. And then it timed out for part 2. Damn.
