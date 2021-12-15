@@ -5,44 +5,56 @@ from itertools import pairwise
 from collections import Counter, defaultdict
 from copy import deepcopy
 
-def find_dijkstra(risk_min, grid, start_y, start_x, end_y, end_x, risk_cur):
-    visited = []
-    unvisited = []
-    for y in range(end_y+1):
-        for x in range(end_x+1):
-            unvisited.append((y,x))
-    
 
-def find_path(risk_min, grid, start_y, start_x, end_y, end_x, risk_cur):
-    if start_y == 0 and start_x == 0:
-        risk=0
-    else:
-        risk = grid[start_y][start_x][0]
-    risk_cur += risk
-    grid[start_y][start_x][1] = True
+def find_dijkstra(grid, end_y, end_x):
+    MAXDIST=9999999999999999999999999999999999999999
+    risk=0
+    visited = {}
+    unvisited = {}
+    vertex = {}
+    for y in range(end_y + 1):
+        for x in range(end_x + 1):
+            unvisited[(y, x)] = (y,x)
+            vertex[(y, x)] = {"dist": MAXDIST,
+                              "prev": None}
+    vertex[(0, 0)]["dist"] = 0 # grid[0][0]
 
-    if start_y == end_y and start_x == end_x:
-        if risk_min[0] > risk_cur:
-            risk_min[0] = risk_cur
-            print(risk_min[0], end=" ")
-        print(".", end=" ")
-        grid[start_y][start_x][1] = False
-        risk_cur -= risk
-        return
+    while len(unvisited):
+        # find unvisited vertex with smallest distance
+        v_min=min(unvisited.keys())
+        for v in unvisited:
+            if vertex[v]["dist"] < vertex[v_min]["dist"]:
+                v_min = v
+        
+        # examine unvisited neighbours
+        v_min_dist=vertex[v_min]["dist"]
+        y,x=v_min
+        if y + 1 <= end_y and unvisited.get((y+1,x),False):
+            dist = grid[y+1][x]
+            if v_min_dist+dist < vertex[(y+1,x)]["dist"]:
+                vertex[(y+1,x)]["dist"] = v_min_dist + dist
+                vertex[(y+1,x)]["prev"] = v_min 
+        if x + 1 <= end_x and unvisited.get((y,x+1),False):
+            dist = grid[y][x+1]
+            if v_min_dist+dist < vertex[(y,x+1)]["dist"]:
+                vertex[(y,x+1)]["dist"] = v_min_dist + dist
+                vertex[(y,x+1)]["prev"] = v_min 
+        if y - 1 >= 0 and unvisited.get((y-1,x),False):
+            dist = grid[y-1][x]
+            if v_min_dist+dist < vertex[(y-1,x)]["dist"]:
+                vertex[(y-1,x)]["dist"] = v_min_dist + dist
+                vertex[(y-1,x)]["prev"] = v_min 
+        if x - 1 >= 0 and unvisited.get((y,x-1),False):
+            dist = grid[y][x-1]
+            if v_min_dist+dist < vertex[(y,x-1)]["dist"]:
+                vertex[(y,x-1)]["dist"] = v_min_dist + dist
+                vertex[(y,x-1)]["prev"] = v_min 
+        # mark vertext as visited
+        visited[v_min]=v_min 
+        unvisited.pop(v_min)     
 
-    if risk_cur < risk_min[0]:
-        if start_y + 1 <= end_y and grid[start_y + 1][start_x][1] == False:
-            find_path(risk_min, grid, start_y + 1, start_x, end_y, end_x, risk_cur)
-        if start_x + 1 <= end_x and grid[start_y][start_x + 1][1] == False:
-            find_path(risk_min, grid, start_y, start_x + 1, end_y, end_x, risk_cur)
-        if start_x - 1 >= 0 and grid[start_y][start_x - 1][1] == False:
-            find_path(risk_min, grid, start_y, start_x - 1, end_y, end_x, risk_cur)
-        if start_y - 1 >= 0 and grid[start_y - 1][start_x][1] == False:
-            find_path(risk_min, grid, start_y - 1, start_x, end_y, end_x, risk_cur)
-
-    grid[start_y][start_x][1] = False
-    risk_cur -= risk
-    return
+    risk=vertex[(end_y,end_x)]["dist"] # distance
+    return risk
 
 
 def main(input_name):
@@ -52,14 +64,33 @@ def main(input_name):
         lines = input.readlines()
     grid = []
     for line in lines:
-        grid.append([[int(risk), False] for risk in line.strip()])
+        grid.append([int(risk) for risk in line.strip()])
 
     # PART 1
-    risk = [999999999999999999999]
-    find_path(risk, grid, 0, 0, len(grid) - 1, len(grid[0]) - 1, 0)
-    print(f"The solution 1 is {risk[0]} ")
-    # answer:
+    result = find_dijkstra( grid, len(grid) - 1, len(grid[0]) - 1)
+    print(f"The solution 1 is {result} ")
+    # answer: 790
 
+    # PART 2
+    big_grid=[]
+    plus = lambda row,n: [v+n if (v+n)<=9 else (v+n)-9 for v in row]
+    for row in grid:
+        big_grid.append(plus(row,0) + plus(row,1) + plus(row,2) + plus(row,3) + plus(row,4))
+    grid=[]
+    for row in big_grid:
+        grid.append(plus(row,0))
+    for row in big_grid:
+        grid.append(plus(row,1))
+    for row in big_grid:
+        grid.append(plus(row,2))
+    for row in big_grid:
+        grid.append(plus(row,3))
+    for row in big_grid:
+        grid.append(plus(row,4))
+
+    result = find_dijkstra( grid, len(grid) - 1, len(grid[0]) - 1)
+    print(f"The solution 2 is {result} ")
+    # answer: 
 
 if __name__ == "__main__":
-    main("test.txt")
+    main("input.txt")
