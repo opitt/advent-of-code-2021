@@ -4,11 +4,31 @@ A nice challenge for everyday learning a coding language.
 # Today I learned...
 These are some things I learned along the way.
 
+## Day 16
+_General_
+* Yesterday was tough. Today looks easier ... but I had problems with recursion. Stopped using recursion. 
+* But now I am sitting with a list of operators, values and brackets. Could not solve part 2 yet ... but I know it's doable with a fresh brain.
+* Part two is still running ... OMG.
+
+_Python_
+* I started to use pattern matching, **case-match**
+* It's one thing to read about it .. but using it is bringing a lot of lightbulb moments.
+  ```Python
+  case d:
+      match {"op": str, "id": int as id, "arguments": int } if id ==0:
+          # sum found - having arguments
+          pass
+      match {"op": str, "id": int as id} if id ==0:
+          # sum operator found with no argument specified
+          pass
+  ```
+
+
 ## Day 15
 _General_
 * This is going to be tough. My recursive solution broke very quickly. Now I try with Dijkstra ...
 * Watch here: [youtube](https://www.youtube.com/watch?v=pVfj6mxhdMw&list=PLdWlRrByQZJ00x7n4v51Mtc-rU-UAicGB&index=3)
-* Part two is still running ... OMG.
+* Part two is still running ... OMG. It run all night ... and finally produced the right number.
 
 _Python_
 * Nothing really new. Maybe to mention that I use tupels as index for a dictionary ... boring, right?
