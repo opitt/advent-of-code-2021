@@ -1,15 +1,11 @@
-# https://adventofcode.com/2021/day/14
+# https://adventofcode.com/2021/day/15
 import os
 from rich import print
-from itertools import pairwise
-from collections import Counter, defaultdict
-from copy import deepcopy
 
 
 def find_dijkstra(grid, end_y, end_x):
     MAXDIST=9999999999999999999999999999999999999999
     risk=0
-    visited = {}
     unvisited = {}
     vertex = {}
     for y in range(end_y + 1):
@@ -50,7 +46,7 @@ def find_dijkstra(grid, end_y, end_x):
                 vertex[(y,x-1)]["dist"] = v_min_dist + dist
                 vertex[(y,x-1)]["prev"] = v_min 
         # mark vertext as visited
-        visited[v_min]=v_min 
+        #visited[v_min]=v_min 
         unvisited.pop(v_min)     
 
     risk=vertex[(end_y,end_x)]["dist"] # distance
@@ -69,28 +65,19 @@ def main(input_name):
     # PART 1
     result = find_dijkstra( grid, len(grid) - 1, len(grid[0]) - 1)
     print(f"The solution 1 is {result} ")
-    # answer: 790
+    # answer: 790 (test: 40)
 
     # PART 2
-    big_grid=[]
     plus = lambda row,n: [v+n if (v+n)<=9 else (v+n)-9 for v in row]
-    for row in grid:
-        big_grid.append(plus(row,0) + plus(row,1) + plus(row,2) + plus(row,3) + plus(row,4))
+    big_grid=[]
+    for row in grid:big_grid.append(plus(row,0) + plus(row,1) + plus(row,2) + plus(row,3) + plus(row,4))
     grid=[]
-    for row in big_grid:
-        grid.append(plus(row,0))
-    for row in big_grid:
-        grid.append(plus(row,1))
-    for row in big_grid:
-        grid.append(plus(row,2))
-    for row in big_grid:
-        grid.append(plus(row,3))
-    for row in big_grid:
-        grid.append(plus(row,4))
-
+    for i in range(5):
+        for row in big_grid:grid.append(plus(row,1))
+    
     result = find_dijkstra( grid, len(grid) - 1, len(grid[0]) - 1)
     print(f"The solution 2 is {result} ")
-    # answer: 
+    # answer: (test: 315)
 
 if __name__ == "__main__":
     main("input.txt")
