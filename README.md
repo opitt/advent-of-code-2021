@@ -22,7 +22,14 @@ _Python_
           # sum operator found with no argument specified
           pass
   ```
+## Day 16
+_General_
+* This day took 4 days. Today I nearly cried by fixing the bugs, that kept me frustrated the last days.
+* My approach: use a queue, put the current operator in, with the number of needed parameters ... -1 for "as many as the packet stream contains".
+* For a given subpackets length, I used the function recursively.
 
+_Python_
+* Got to use the **queue** package and the **LifoQueue**. After four days, I can used it quite well know and understand it's basic struture. 
 
 ## Day 15
 _General_
