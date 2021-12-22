@@ -4,7 +4,7 @@ A nice challenge for everyday learning a coding language.
 # Today I learned...
 These are some things I learned along the way.
 
-## Day 16
+## Day 17
 _General_
 * A fun excercise. I like simulations.
 
