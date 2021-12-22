@@ -6,6 +6,26 @@ These are some things I learned along the way.
 
 ## Day 16
 _General_
+* A fun excercise. I like simulations.
+
+_Python_
+* I used a simple class to simulate the probe ... 
+* Overkill but good to learn
+```Python
+class Probe:
+    def __init__(self, velo_y, velo_x, min_y, max_y, min_x, max_x) -> None:
+
+    def _update_velocity(self):
+
+    def move_a_step(self):
+
+    def is_in_target(self):
+
+    def can_reach_target(self):
+```
+
+## Day 16
+_General_
 * Yesterday was tough. Today looks easier ... but I had problems with recursion. Stopped using recursion. 
 * But now I am sitting with a list of operators, values and brackets. Could not solve part 2 yet ... but I know it's doable with a fresh brain.
 * Part two is still running ... OMG.
