@@ -5,12 +5,16 @@ from rich import print
 
 def solve1(steps):
     cubes_on = set()
-
+    # consider only x=-50..50,y=-50..50,z=-50..50
     for step in steps:
+        print(step)
         state, X, Y, Z = step["state"], step["x"], step["y"], step["z"]
         for x in range(X[0], X[1] + 1):
+            if not -50<=x<=50:continue
             for y in range(Y[0], Y[1] + 1):
+                if not -50<=y<=50:continue
                 for z in range(Z[0], Z[1] + 1):
+                    if not -50<=z<=50:continue
                     if state:
                         cubes_on.add((x, y, z))
                     else:
@@ -48,5 +52,5 @@ def main(input_name):
 
 
 if __name__ == "__main__":
-    # main("input.txt")
-    main("test.txt")
+    main("input.txt")
+    #main("test2.txt")
