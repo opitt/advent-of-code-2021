@@ -4,6 +4,13 @@ A nice challenge for everyday learning a coding language.
 # Today I learned...
 These are some things I learned along the way.
 
+## Day 25
+_General_
+* I solved day 25 part 1 after Christmas. I got stuck with the other days ... and when I found out, that day 25 is a simulation ... I tried it. And it worked.
+
+_Python_
+* I started using lists to store the coordinates. But the search if a coordinate is in the list takes long. So I switched to dictionary. The performance is much better. There might be even better solutions with numpy and matrix operations ... but I am happy with the solution.
+
 ## Day 17
 _General_
 * A fun excercise. I like simulations.
