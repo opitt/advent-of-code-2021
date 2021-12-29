@@ -2,6 +2,7 @@
 pos = [1, 10] # start values
 dice = [6, 15] # start values
 score = [0, 0] # start values
+DICE_INC = 18
 winner = None
 rolls = 0
 
@@ -9,11 +10,8 @@ while True:
     for p in (0, 1):
         rolls += 3
 
-        pos[p] = (pos[p] + dice[p]) % 10
-        pos[p] = 10 if pos[p] == 0 else pos[p]
-
-        dice[p] = (dice[p] + 18) % 100
-        dice[p] = 100 if dice[p] == 0 else dice[p]
+        pos[p] = (pos[p] + dice[p]) % 10 or 10
+        dice[p] = (dice[p] + 18) % 100 or 10
 
         score[p] += pos[p]
         if score[p] >= 1000:
