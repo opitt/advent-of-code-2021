@@ -11,6 +11,15 @@ _General_
 _Python_
 * I started using lists to store the coordinates. But the search if a coordinate is in the list takes long. So I switched to dictionary. The performance is much better. There might be even better solutions with numpy and matrix operations ... but I am happy with the solution.
 
+## Day 21
+_General_
+* Part 1 was easy and fun. But part 2 took a while. I found out about the grouping of 3 rolls ... but performance sucked.
+* Found some inspiration in this repo: [marcodelmastro](https://github.com/marcodelmastro/AdventOfCode2021/blob/main/Day21.ipynb)
+
+_Python_
+* Learned **lru_cache** decorator from the **itertools** library. Great performance increase. It requires hashable parameters ... so my list did not work. Converting to a tuple made it immutable.
+
+
 ## Day 17
 _General_
 * A fun excercise. I like simulations.
